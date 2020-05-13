@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+ <head>
+<meta charset="UTF-8" />
+<link rel="stylesheet" th:href="@{/webjars/bootstrap/4.2.1/css/bootstrap.min.css}" />
+<link href="/css/index.css" th:href="@{/css/index.css}" rel="stylesheet"></link>
+<link href="css/font-awesome.css" rel="stylesheet">
+<title>Image List</title>
+</head>
+<body>
+<button type="button" class="btn btn-primary" onClick="location.href='/image/register'">画像をアップロードする</button>
+<img th:src="@{uploaded/anon/nagasawa_kun.jpeg}" th:width="200" th:height="200">
+<img th:src="@{uploaded/anon/IMG_20200316_183815.jpg}" th:width="200" th:height="200">
+<img th:src="@{uploaded/anon/top-img01.png}" th:width="200" th:height="200">
+</body>
+</html>
