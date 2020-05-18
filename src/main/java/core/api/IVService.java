@@ -22,7 +22,6 @@ public class IVService extends IVCommon {
 		Tag tag = ivMapper.selectTagId(tagName);
 		long tagId;
 
-		// 0：未登録のタグ　0以外：登録済のタグ
 		if(tag == null ) {
 			// タグ登録
 			tagId = ivMapper.insertTag(tagName);
@@ -33,20 +32,15 @@ public class IVService extends IVCommon {
 		}
 
 		Image image = new Image();
-		int dirCode = this.checkDir(userId);
-		String filepath;
 		for(MultipartFile file : files) {
-			// ファイルパス&フォルダパス取得
-			filepath = this.getFilepath(dirCode, userId, file.getOriginalFilename());
 			try {
-				this.saveImageFiles(file, filepath);
+				this.saveImageFiles(file, this.getFilepath());
 			} catch (IOException e) {
-				// TODO 自動生成された catch ブロック
 				e.printStackTrace();
 			}
 			image.setUserId(userId);
 			image.setTagId(tagId);
-			image.setPath(filepath);
+			image.setPath(this.getFilepath());
 			// ファイル情報をDB格納
 			ivMapper.insertImages(image);
 		}

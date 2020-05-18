@@ -13,36 +13,8 @@ import org.springframework.web.multipart.MultipartFile;
 public class IVCommon {
 
 	// 保存先ファイルパス生成
-	public String getFilepath(int dirCode, long userId, String fileName) {
-		String filepath = "";
-		switch(dirCode) {
-		case 0:
-			filepath = "src/main/resources/static/uploaded/" + userId + "/" + this.getUniqueId() + ".png";
-			break;
-		case 1:
-			filepath = "src/main/resources/static/uploaded/" + userId + "/" + this.getUniqueId() + ".png";
-			break;
-		case 2:
-			filepath = "src/main/resources/static/uploaded/anon/" + this.getUniqueId() + ".png";
-			break;
-		}
-		return filepath;
-	}
-
-	// ディレクトリが存在するか確認、無い場合はディレクトリ作成
-	public int checkDir(long userId) {
-		// 初期値（ログインユーザーでディレクトリが存在する場合）
-		int dirCode = 0;
-		File dir = new File("src/main/resources/static/uploaded/" + userId);
-		// ログインユーザーでディレクトリが存在しない場合（初アップロード）
-		if((!dir.exists()) && userId != 1) {
-			dir.mkdir();
-			dirCode = 1;
-		// 未ログインユーザー（匿名）の場合
-		} else if(userId == 1){
-			dirCode = 2;
-		}
-		return dirCode;
+	public String getFilepath() {
+			return "src/main/resources/static/uploaded/" + this.getUniqueId() + ".png";
 	}
 
 	// 画像ファイルを指定パスに保存
