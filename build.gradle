@@ -25,6 +25,10 @@ dependencies {
 	runtimeOnly 'mysql:mysql-connector-java'
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
+	// https://mvnrepository.com/artifact/com.amazonaws/aws-java-sdk-s3
+		// https://mvnrepository.com/artifact/com.amazonaws/aws-java-sdk-s3
+	compile group: 'com.amazonaws', name: 'aws-java-sdk-s3', version: '1.11.784'
+	compile group: 'com.amazonaws', name: 'aws-java-sdk-core', version: '1.11.784'
 }
 
 test {

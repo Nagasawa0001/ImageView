@@ -3,14 +3,103 @@
  <head>
 <meta charset="UTF-8" />
 <link rel="stylesheet" th:href="@{/webjars/bootstrap/4.2.1/css/bootstrap.min.css}" />
-<link href="/css/index.css" th:href="@{/css/index.css}" rel="stylesheet"></link>
-<link href="css/font-awesome.css" rel="stylesheet">
-<title>Image List</title>
+<link th:href="@{/css/image_list.css}" rel="stylesheet"></link>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+<title>Image View</title>
 </head>
 <body>
-<button type="button" class="btn btn-primary" onClick="location.href='/image/register'">画像をアップロードする</button>
-<img th:src="@{uploaded/anon/nagasawa_kun.jpeg}" th:width="200" th:height="200">
-<img th:src="@{uploaded/anon/IMG_20200316_183815.jpg}" th:width="200" th:height="200">
-<img th:src="@{uploaded/anon/top-img01.png}" th:width="200" th:height="200">
+<div class="card">
+	<div class="card-header" id="headingOne">
+		<h5 class="mb-0">
+		<button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+		タグ一覧
+		</button>
+		</h5>
+	</div>
+	<div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+		<div class="card-body">
+			<button class="btn btn-info btn-badge btn-sm">＃<span class="btn-text" th:text="タグ名１"></span></button>
+			<button class="btn btn-info btn-badge btn-sm">＃<span class="btn-text" th:text="タグ名１"></span></button>
+			<button class="btn btn-info btn-badge btn-sm">＃<span class="btn-text" th:text="タグ名１"></span></button>
+			<button class="btn btn-info btn-badge btn-sm">＃<span class="btn-text" th:text="タグ名１"></span></button>
+			<button class="btn btn-info btn-badge btn-sm">＃<span class="btn-text" th:text="タグ名１"></span></button>
+			<button class="btn btn-info btn-badge btn-sm">＃<span class="btn-text" th:text="タグ名１"></span></button>
+			<button class="btn btn-info btn-badge btn-sm">＃<span class="btn-text" th:text="タグ名１"></span></button>
+		</div>
+	</div>
+</div>
+<div id="nav-bar">
+	<nav class="nav">
+		<button type="button" class="btn btn-danger btn-upload nav-link btn-sm" data-toggle="modal" data-target="#upload-modal">アップロード</button>
+		<p class="nav-link disabled">並び替え：</p>
+		<a class="nav-link" href="#">いいね多い順</a>
+		<a class="nav-link" href="#">いいね少ない順</a>
+		<a class="nav-link" href="#">投稿日時が新しい順</a>
+		<a class="nav-link" href="#">投稿日時古い順</a>
+	</nav>
+</div>
+<div id="image-list-frame">
+	<ul>
+		<li th:each=" image : ${imageList}">
+			<img th:src="${image.path}" th:width="250" th:height="250">
+			<div class="meta-frame">
+				<button type="button" class="btn btn-success btn-sm btn-badge" data-toggle="modal" data-target="#download-modal"><span class="btn-text" th:text="Download"></span></button>
+				<button type="button" class="btn btn-secondary btn-sm btn-badge"><span class="btn-text" th:text="削除依頼"></span></button>
+				<p><button class="btn btn-primary btn-badge btn-sm"><span class="btn-text" th:text="Good"></span></button>: <span th:text="${image.goodCount}"></span></p>
+				<p>投稿日時: <span th:text="${#dates.format(image.createdAt, 'yyyy/MM/dd')}"></span></p>
+				<p><button class="btn btn-info btn-badge btn-sm">＃<span class="btn-text" th:text="${image.tagName}"></span></button></p>
+			</div>
+		</li>
+	</ul>
+</div>
+
+<!-- ここからモーダル内容 -->
+<!-- アップロードフォームモーダル -->
+<div id="upload-modal" class="modal fade" role="dialog" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered" role="document">
+		<div class="modal-content">
+			<div class="modal-body">
+				<form action="/" th:action="@{/}" method="post" enctype="multipart/form-data">
+					<label for="input-file">ファイル :</label>
+					<input id="input-file" type="file" name="uploadFiles" multiple="multiple" class="form-control-file" />
+    				<small id="emailHelp" class="form-text text-muted">.png .jpeg .jpg .gif がアップロード可能です</small>
+
+				    <label for="input-tagName" class="modal-label">タグ名 :</label>
+				    <input id="input-tagName" class="form-control" type="text" placeholder="Enter tagName" name="tagName">
+
+				    <button type="submit" class="btn btn-danger btn-sm submit-btn">アップロード</button>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- ダウンロードフォームモーダル -->
+<div id="download-modal" class="modal fade" role="dialog" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered" role="document">
+		<div class="modal-content">
+			<div class="modal-body">
+				<form action="/" th:action="@{/}" method="post" enctype="multipart/form-data">
+					<label for="input-tagName">縦サイズ（px） :</label>
+					<input id="input-tagName" class="form-control" type="text" placeholder="Enter height size" name="tagName">
+
+					<label for="input-tagName" class="modal-label">横サイズ（px） :</label>
+					<input id="input-tagName" class="form-control" type="text" placeholder="Enter width size" name="tagName">
+
+					<label for="input-file-type" class="modal-label">ファイルタイプ（.png .jpg .jpeg .gif）</label>
+					<select id="input-file-type" class="form-control">
+						<option value="png" selected>.png</option>
+						<option value="jpg">.jpg</option>
+						<option value="jpeg">.jpeg</option>
+						<option value="gif">.gif</option>
+					</select>
+					<button type="submit" class="btn btn-success btn-sm  submit-btn">ダウンロード</button>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
 </body>
 </html>

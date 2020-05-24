@@ -1,0 +1,43 @@
+@charset "UTF-8";
+
+#image-list-frame ul li{
+	display: inline-block;
+	margin-right: 2em;
+	margin-bottom: 3em;
+}
+
+#nav-bar {
+	display: inline-block;
+}
+
+.meta-frame {
+	border-bottom: double 5px #c0c0c0;
+	padding: 5px;
+}
+.meta-frame p{
+	margin-top: 0px;
+	margin-bottom: 0px;
+}
+
+.btn-badge {
+	border-radius: 15px;
+	margin-bottom: 5px;
+}
+
+.btn-text {
+	font-size: 13px;
+}
+
+.btn-upload {
+	font-size: 15px;
+	height: 40px;
+	margin-left: 5px;
+}
+
+.submit-btn {
+	margin-top: 10px;
+}
+
+.modal-label {
+	margin-top: 10px;
+}
