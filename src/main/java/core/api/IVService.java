@@ -1,7 +1,6 @@
 package core.api;
 
 import java.io.IOException;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,8 +9,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.amazonaws.AmazonClientException;
 
-import core.api.entity.Image;
 import core.api.entity.ImageRegisterForm;
+import core.api.entity.ImageTagList;
 
 @Service
 @Transactional
@@ -20,8 +19,11 @@ public class IVService extends IVCommon {
 	@Autowired
 	IVMapper ivMapper;
 
-	public List<Image> getImageList() {
-		return ivMapper.selectImageList();
+	public ImageTagList getImageAndTagList() {
+		ImageTagList list = new ImageTagList();
+		list.setImageList(ivMapper.selectImageList());
+		list.setTagList(ivMapper.selectTagList());
+		return list;
 	}
 
 	// ファイルアップロード

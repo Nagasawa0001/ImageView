@@ -28,6 +28,9 @@ public interface IVMapper {
 	@Options(useGeneratedKeys = true, keyProperty = "id")
 	public long insertTag(String tagName);
 
-	@Select("SELECT images.id, images.userId, images.tagId, tags.name AS tagName, images.title, images.path, images.viewCount, images.favoriteCount, images.goodCount, images.createdAt FROM images INNER JOIN tags ON images.tagId=tags.id")
+	@Select("SELECT images.id, images.userId, images.tagId, tags.name AS tagName, images.title, images.path, images.viewCount, images.favoriteCount, images.goodCount, images.preDeleteFlag, images.createdAt FROM images INNER JOIN tags ON images.tagId=tags.id")
 	public List<Image> selectImageList();
+
+	@Select("SELECT * FROM tags")
+	public List<Tag> selectTagList();
 }

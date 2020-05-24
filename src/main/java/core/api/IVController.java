@@ -1,7 +1,6 @@
 package core.api;
 
 import java.io.IOException;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -10,8 +9,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import core.api.entity.Image;
 import core.api.entity.ImageRegisterForm;
+import core.api.entity.ImageTagList;
 
 @Controller
 public class IVController {
@@ -21,8 +20,9 @@ public class IVController {
 
 	@GetMapping("/")
 	public String getListPage(Model model) {
-		List<Image> imageList = ivService.getImageList();
-		model.addAttribute("imageList", imageList);
+		ImageTagList list = ivService.getImageAndTagList();
+		model.addAttribute("imageList", list.getImageList());
+		model.addAttribute("tagList", list.getTagList());
 		return "image_list";
 	}
 

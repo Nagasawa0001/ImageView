@@ -18,15 +18,11 @@
 		</button>
 		</h5>
 	</div>
-	<div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+	<div id="collapseOne" class="collapse hidden" aria-labelledby="headingOne">
 		<div class="card-body">
-			<button class="btn btn-info btn-badge btn-sm">＃<span class="btn-text" th:text="タグ名１"></span></button>
-			<button class="btn btn-info btn-badge btn-sm">＃<span class="btn-text" th:text="タグ名１"></span></button>
-			<button class="btn btn-info btn-badge btn-sm">＃<span class="btn-text" th:text="タグ名１"></span></button>
-			<button class="btn btn-info btn-badge btn-sm">＃<span class="btn-text" th:text="タグ名１"></span></button>
-			<button class="btn btn-info btn-badge btn-sm">＃<span class="btn-text" th:text="タグ名１"></span></button>
-			<button class="btn btn-info btn-badge btn-sm">＃<span class="btn-text" th:text="タグ名１"></span></button>
-			<button class="btn btn-info btn-badge btn-sm">＃<span class="btn-text" th:text="タグ名１"></span></button>
+			<button class="btn btn-info btn-badge btn-sm btn-tag" th:each=" tag : ${tagList}">
+			＃<span class="btn-text" th:text="${tag.name}"></span>
+			</button>
 		</div>
 	</div>
 </div>
