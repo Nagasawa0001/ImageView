@@ -45,7 +45,7 @@
 				<button type="button" class="btn btn-secondary btn-sm btn-badge"><span class="btn-text" th:text="削除依頼"></span></button>
 				<p><button class="btn btn-primary btn-badge btn-sm"><span class="btn-text" th:text="Good"></span></button>: <span th:text="${image.goodCount}"></span></p>
 				<p>投稿日時: <span th:text="${#dates.format(image.createdAt, 'yyyy/MM/dd')}"></span></p>
-				<p><button class="btn btn-info btn-badge btn-sm">＃<span class="btn-text" th:text="${image.tagName}"></span></button></p>
+				<p><a class="btn btn-info btn-badge btn-sm" href="/search" th:href="@{/search(tagId=${image.tagId})}">＃<span class="btn-text" th:text="${image.tagName}"></span></a></p>
 			</div>
 		</li>
 	</ul>
