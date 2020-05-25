@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import core.api.entity.ImageRegisterForm;
 import core.api.entity.ImageTagList;
@@ -46,9 +47,13 @@ public class IVController {
 	}
 
 	// タグ名で検索
-	@GetMapping("/search/{tag}")
-	public String searchByTagName() {
-		return null;
+	@GetMapping("/search")
+	public String searchByTagName(@RequestParam(name="tagId", required=false) long tagId, Model model) {
+
+		ImageTagList list = ivService.searchByTag(tagId);
+		model.addAttribute("imageList", list.getImageList());
+		model.addAttribute("tagList", list.getTagList());
+		return "image_list";
 	}
 
 	// 削除依頼を申請

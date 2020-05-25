@@ -26,6 +26,14 @@ public class IVService extends IVCommon {
 		return list;
 	}
 
+	// タグ名検索
+	public ImageTagList searchByTag(long tagId) {
+		ImageTagList list = new ImageTagList();
+		list.setImageList(ivMapper.selectImageListByTag(tagId));
+		list.setTagList(ivMapper.selectTagList());
+		return list;
+	}
+
 	// ファイルアップロード
 	public void registerImage(ImageRegisterForm form) {
 		long tagId = this.checkExistTag(form.getTagName());
