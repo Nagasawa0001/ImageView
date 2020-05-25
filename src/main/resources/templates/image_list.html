@@ -30,10 +30,10 @@
 	<nav class="nav">
 		<button type="button" class="btn btn-danger btn-upload nav-link btn-sm" data-toggle="modal" data-target="#upload-modal">アップロード</button>
 		<p class="nav-link disabled">並び替え：</p>
-		<a class="nav-link" href="#">いいね多い順</a>
-		<a class="nav-link" href="#">いいね少ない順</a>
-		<a class="nav-link" href="#">投稿日時が新しい順</a>
-		<a class="nav-link" href="#">投稿日時古い順</a>
+		<a class="nav-link" href="/sort" th:href="@{/sort(target=goodCount, sortType=DESC)}">いいね多い順</a>
+		<a class="nav-link" href="/sort" th:href="@{/sort(target=goodCount, sortType=ASC)}">いいね少ない順</a>
+		<a class="nav-link" href="/sort" th:href="@{/sort(target=createdAt, sortType=DESC)}">投稿日時が新しい順</a>
+		<a class="nav-link" href="/sort" th:href="@{/sort(target=createdAt, sortType=ASC)}">投稿日時古い順</a>
 	</nav>
 </div>
 <div id="image-list-frame">

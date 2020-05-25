@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Options;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
 import core.api.entity.Image;
@@ -38,5 +39,9 @@ public interface IVMapper {
 	// タグ名で絞り込んだ画像リストを取得
 	@Select("SELECT images.id, images.userId, images.tagId, tags.name AS tagName, images.title, images.path, images.viewCount, images.favoriteCount, images.goodCount, images.preDeleteFlag, images.createdAt FROM images INNER JOIN tags ON images.tagId=tags.id WHERE images.tagId=#{tagId}")
 	public List<Image> selectImageListByTag(long tagId);
+
+	// 並び替えした画像リストを取得
+	@Select("SELECT images.id, images.userId, images.tagId, tags.name AS tagName, images.title, images.path, images.viewCount, images.favoriteCount, images.goodCount, images.preDeleteFlag, images.createdAt FROM images INNER JOIN tags ON images.tagId=tags.id ORDER BY ${target} ${sortType}")
+	public List<Image> getImageListBySort(@Param("target")String target, @Param("sortType")String sortType);
 
 }

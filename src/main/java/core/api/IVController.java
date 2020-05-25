@@ -42,8 +42,11 @@ public class IVController {
 
 	// 画像リストを並べ替え
 	@GetMapping("/sort")
-	public String sortImages() {
-		return null;
+	public String sortImages(@RequestParam(name="target", required=false) String target, @RequestParam(name="sortType", required=false) String sortType, Model model) {
+		ImageTagList list = ivService.getImageListBySort(target, sortType);
+		model.addAttribute("imageList", list.getImageList());
+		model.addAttribute("tagList", list.getTagList());
+		return "image_list";
 	}
 
 	// タグ名で検索

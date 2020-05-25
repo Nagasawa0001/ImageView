@@ -19,6 +19,7 @@ public class IVService extends IVCommon {
 	@Autowired
 	IVMapper ivMapper;
 
+	// 全
 	public ImageTagList getImageAndTagList() {
 		ImageTagList list = new ImageTagList();
 		list.setImageList(ivMapper.selectImageList());
@@ -30,6 +31,14 @@ public class IVService extends IVCommon {
 	public ImageTagList searchByTag(long tagId) {
 		ImageTagList list = new ImageTagList();
 		list.setImageList(ivMapper.selectImageListByTag(tagId));
+		list.setTagList(ivMapper.selectTagList());
+		return list;
+	}
+
+	// 並び替え画像リスト取得
+	public ImageTagList getImageListBySort(String target, String sortType) {
+		ImageTagList list = new ImageTagList();
+		list.setImageList(ivMapper.getImageListBySort(target, sortType));
 		list.setTagList(ivMapper.selectTagList());
 		return list;
 	}
