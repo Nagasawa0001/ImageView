@@ -66,8 +66,9 @@ public class IVController {
 	}
 
 	// いいねを増やす
-	@PatchMapping("/count/good")
-	public void countGood() {
-
+	@GetMapping("/count/good")
+	public String countGood(@RequestParam(name="id", required=false)long id) {
+		ivService.incrementGoodCount(id);
+		return "redirect:/";
 	}
 }

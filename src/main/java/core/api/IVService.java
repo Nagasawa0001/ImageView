@@ -43,6 +43,11 @@ public class IVService extends IVCommon {
 		return list;
 	}
 
+	// いいね数追加
+	public void incrementGoodCount(long id) {
+		ivMapper.updateGoodCount(id);
+	}
+
 	// ファイルアップロード
 	public void registerImage(ImageRegisterForm form) {
 		long tagId = this.checkExistTag(form.getTagName());

@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 import core.api.entity.Image;
 import core.api.entity.ImageRegisterForm;
@@ -44,4 +45,7 @@ public interface IVMapper {
 	@Select("SELECT images.id, images.userId, images.tagId, tags.name AS tagName, images.title, images.path, images.viewCount, images.favoriteCount, images.goodCount, images.preDeleteFlag, images.createdAt FROM images INNER JOIN tags ON images.tagId=tags.id ORDER BY ${target} ${sortType}")
 	public List<Image> getImageListBySort(@Param("target")String target, @Param("sortType")String sortType);
 
+	// いいね数追加
+	@Update("UPDATE images SET goodCount=goodCount + 1 WHERE id=#{id};")
+	public void updateGoodCount(long id);
 }
