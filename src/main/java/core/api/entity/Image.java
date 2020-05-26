@@ -15,5 +15,7 @@ public class Image {
 	private long viewCount;
 	private long favoriteCount;
 	private long goodCount;
-	private Timestamp createdAt;
+	private boolean preDeleteFlag;
+	Timestamp createdAt;
+	Timestamp deleteRequestDate;
 }

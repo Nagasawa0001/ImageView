@@ -41,11 +41,29 @@
 		<li th:each=" image : ${imageList}">
 			<img th:src="${image.path}" th:width="250" th:height="250">
 			<div class="meta-frame">
-				<button type="button" class="btn btn-success btn-sm btn-badge" data-toggle="modal" data-target="#download-modal"><span class="btn-text" th:text="Download"></span></button>
-				<button type="button" class="btn btn-secondary btn-sm btn-badge"><span class="btn-text" th:text="削除依頼"></span></button>
-				<p><a class="btn btn-primary btn-badge btn-sm" href="/count/good" th:href="@{/count/good(id=${image.id})}"><span class="btn-text" th:text="Good"></span></a> : <span th:text="${image.goodCount}"></span></p>
-				<p>投稿日時: <span th:text="${#dates.format(image.createdAt, 'yyyy/MM/dd')}"></span></p>
-				<p><a class="btn btn-info btn-badge btn-sm" href="/search" th:href="@{/search(tagId=${image.tagId})}">＃<span class="btn-text" th:text="${image.tagName}"></span></a></p>
+				<button type="button" class="btn btn-success btn-sm btn-badge" data-toggle="modal" data-target="#download-modal">
+					<span class="btn-text" th:text="Download"></span>
+				</button>
+				<a th:if="${!image.preDeleteFlag}" class="btn btn-secondary btn-sm btn-badge" href="/request/deletion" th:href="@{/request/deletion(id=${image.id})}">
+					<span class="btn-text" th:text="削除依頼する"></span>
+				</a>
+				<a th:if="${image.preDeleteFlag}" class="btn btn-danger btn-sm btn-badge" href="/request/deletion" th:href="@{/request/deletion(id=${image.id})}">
+					<span class="btn-text" th:text="削除依頼中"></span>
+				</a>
+				<p>
+					<a class="btn btn-primary btn-badge btn-sm" href="/count/good" th:href="@{/count/good(id=${image.id})}">
+						<span class="btn-text" th:text="Good"></span>
+					</a>
+					 : <span th:text="${image.goodCount}"></span>
+				</p>
+				<p>投稿日時:
+					<span th:text="${#dates.format(image.createdAt, 'yyyy/MM/dd')}"></span>
+				</p>
+				<p>
+					<a class="btn btn-info btn-badge btn-sm" href="/search" th:href="@{/search(tagId=${image.tagId})}">
+						＃<span class="btn-text" th:text="${image.tagName}"></span>
+					</a>
+				</p>
 			</div>
 		</li>
 	</ul>

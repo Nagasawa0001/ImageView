@@ -2,8 +2,12 @@ package core.api;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -119,5 +123,32 @@ public class IVCommon {
 		uniqueId += Integer.toString(calendar.get(Calendar.MINUTE));
 		uniqueId += Integer.toString(calendar.get(Calendar.SECOND));
 		return uniqueId;
+	}
+
+	// 削除依頼日時比較 + レコード削除
+	public void deleteImages(Timestamp deleteRequestDate, long id) {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		try {
+			// 削除依頼日時
+			Date reqDate = new Date(deleteRequestDate.getTime());
+			Calendar calendar = Calendar.getInstance();
+	        calendar.setTime(reqDate);
+	        // 24時間後に設定
+	        calendar.add(Calendar.DAY_OF_MONTH, 1);
+
+	        // DBのデフォルト値
+	        Date defaultDate = sdf.parse("1000-01-01 00:00:00");
+	        // 削除予定日時
+	        Date deleteDate = calendar.getTime();
+	        // 現在日時
+	        Date  currentDate = new Date(new Timestamp(System.currentTimeMillis()).getTime());
+	        int deleteStatus = deleteDate.compareTo(currentDate);
+	        if(reqDate.compareTo(defaultDate) != 0 && (deleteStatus == 0 || deleteStatus < 0)) {
+	        	ivMapper.deletedImage(id);
+	        }
+
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
 	}
 }

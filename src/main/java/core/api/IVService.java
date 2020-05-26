@@ -19,11 +19,12 @@ public class IVService extends IVCommon {
 	@Autowired
 	IVMapper ivMapper;
 
-	// 全
+	// 全画像リストを取得
 	public ImageTagList getImageAndTagList() {
 		ImageTagList list = new ImageTagList();
 		list.setImageList(ivMapper.selectImageList());
 		list.setTagList(ivMapper.selectTagList());
+		list.getImageList().forEach(image -> this.deleteImages(image.getDeleteRequestDate(), image.getId()));
 		return list;
 	}
 
@@ -48,10 +49,15 @@ public class IVService extends IVCommon {
 		ivMapper.updateGoodCount(id);
 	}
 
+	// 削除依頼
+	public void requestDeletion(long id) {
+		ivMapper.updatePreDeleteFlag(id);
+
+	}
+
 	// ファイルアップロード
 	public void registerImage(ImageRegisterForm form) {
 		long tagId = this.checkExistTag(form.getTagName());
-		System.out.println(tagId);
 
 		String filepath;
 		for(MultipartFile file : form.getUploadFiles()) {
