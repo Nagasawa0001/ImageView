@@ -29,6 +29,7 @@ public class IVController {
 
 	@PostMapping("/")
 	public String uploadImage(@ModelAttribute ImageRegisterForm form) throws IOException {
+		form.setUserId(1);
 		ivService.registerImage(form);
 		return "redirect:/";
 	}
