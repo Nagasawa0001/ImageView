@@ -57,4 +57,8 @@ public interface IVMapper {
 	// 削除依頼から24時間経過しているレコード削除
 	@Delete("DELETE FROM images WHERE id=#{id}")
 	public void deletedImage(long id);
+
+	// ファイルパス兼オブジェクトキーを取得
+	@Select("SELECT path FROM images WHERE id=#{id}")
+	public String selectImagePath(long id);
 }

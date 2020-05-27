@@ -2,6 +2,8 @@ package core.api;
 
 import java.io.IOException;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -35,9 +37,10 @@ public class IVController {
 	}
 
 	// 画像ファイルをダウンロード
-	@PostMapping("/download")
-	public void downloadImage() {
-
+	@GetMapping("/download")
+	public String downloadImage(@RequestParam(name="id", required=false)long id, HttpServletResponse response) {
+        ivService.downloadImage(id, response);
+        return "redirect:/";
 	}
 
 	// 画像リストを並べ替え

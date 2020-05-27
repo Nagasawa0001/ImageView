@@ -2,6 +2,8 @@ package core.api;
 
 import java.io.IOException;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -72,6 +74,25 @@ public class IVService extends IVCommon {
 				// TODO 自動生成された catch ブロック
 				e.printStackTrace();
 			}
+		}
+	}
+
+	// ファイルダウンロード
+	public void downloadImage(long id, HttpServletResponse response) {
+		String objectKey = ivMapper.selectImagePath(id).replace("https://image-view.s3-ap-northeast-1.amazonaws.com/", "");
+		String outputName = objectKey.replace("uploaded/", "");
+//		response.setContentType("image/png");
+//        response.setHeader("Content-Disposition", "attachment; filename=" + outputName);
+//		OutputStream os = null;
+		try {
+			this.downloadImage(objectKey, outputName);
+//			byte[] byteArray = IOUtils.toByteArray(obj.getObjectContent());
+//			os = response.getOutputStream();
+//			os.write(byteArray);
+//			os.flush();
+		} catch (IOException e) {
+			// TODO 自動生成された catch ブロック
+			e.printStackTrace();
 		}
 	}
 }

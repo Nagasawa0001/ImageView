@@ -7,6 +7,9 @@
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+
+<script type="text/javascript" th:src="@{/webjars/jquery/2.1.4/jquery.min.js}"></script>
+<script src="/js/image_list.js" th:src="@{/js/image_list.js}"></script>
 <title>Image View</title>
 </head>
 <body>
@@ -41,9 +44,9 @@
 		<li th:each=" image : ${imageList}">
 			<img th:src="${image.path}" th:width="250" th:height="250">
 			<div class="meta-frame">
-				<button type="button" class="btn btn-success btn-sm btn-badge" data-toggle="modal" data-target="#download-modal">
+				<a class="btn btn-success btn-sm btn-badge" href="/download" th:href="@{/download(id=${image.id})}">
 					<span class="btn-text" th:text="Download"></span>
-				</button>
+				</a>
 				<a th:if="${!image.preDeleteFlag}" class="btn btn-secondary btn-sm btn-badge" href="/request/deletion" th:href="@{/request/deletion(id=${image.id})}">
 					<span class="btn-text" th:text="削除依頼する"></span>
 				</a>
@@ -84,32 +87,6 @@
 				    <input id="input-tagName" class="form-control" type="text" placeholder="Enter tagName" name="tagName">
 
 				    <button type="submit" class="btn btn-danger btn-sm submit-btn">アップロード</button>
-				</form>
-			</div>
-		</div>
-	</div>
-</div>
-
-<!-- ダウンロードフォームモーダル -->
-<div id="download-modal" class="modal fade" role="dialog" aria-hidden="true">
-	<div class="modal-dialog modal-dialog-centered" role="document">
-		<div class="modal-content">
-			<div class="modal-body">
-				<form action="/" th:action="@{/}" method="post" enctype="multipart/form-data">
-					<label for="input-tagName">縦サイズ（px） :</label>
-					<input id="input-tagName" class="form-control" type="text" placeholder="Enter height size" name="tagName">
-
-					<label for="input-tagName" class="modal-label">横サイズ（px） :</label>
-					<input id="input-tagName" class="form-control" type="text" placeholder="Enter width size" name="tagName">
-
-					<label for="input-file-type" class="modal-label">ファイルタイプ（.png .jpg .jpeg .gif）</label>
-					<select id="input-file-type" class="form-control">
-						<option value="png" selected>.png</option>
-						<option value="jpg">.jpg</option>
-						<option value="jpeg">.jpeg</option>
-						<option value="gif">.gif</option>
-					</select>
-					<button type="submit" class="btn btn-success btn-sm  submit-btn">ダウンロード</button>
 				</form>
 			</div>
 		</div>

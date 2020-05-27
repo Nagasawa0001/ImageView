@@ -1,5 +1,7 @@
 package core.api;
 
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Timestamp;
@@ -9,6 +11,8 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+
+import javax.imageio.ImageIO;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.multipart.MultipartFile;
@@ -20,8 +24,11 @@ import com.amazonaws.auth.profile.ProfileCredentialsProvider;
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
+import com.amazonaws.services.s3.model.GetObjectRequest;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
+import com.amazonaws.services.s3.model.ResponseHeaderOverrides;
+import com.amazonaws.services.s3.model.S3Object;
 import com.amazonaws.services.s3.transfer.TransferManager;
 import com.amazonaws.services.s3.transfer.TransferManagerBuilder;
 import com.amazonaws.services.s3.transfer.Upload;
@@ -151,4 +158,84 @@ public class IVCommon {
 			e.printStackTrace();
 		}
 	}
+
+    public S3Object downloadImage(String objectKey, String outputName) throws IOException {
+        Regions clientRegion = Regions.AP_NORTHEAST_1;
+        String bucketName = "image-view";
+        String key = objectKey;
+
+        S3Object fullObject = null, objectPortion = null, headerOverrideObject = null;
+        try {
+            AmazonS3 s3Client = AmazonS3ClientBuilder.standard()
+                    .withRegion(clientRegion)
+                    .withCredentials(new ProfileCredentialsProvider())
+                    .build();
+
+            // Get an object and print its contents.
+            System.out.println("Downloading an object");
+            fullObject = s3Client.getObject(new GetObjectRequest(bucketName, key));
+            System.out.println("Content-Type: " + fullObject.getObjectMetadata().getContentType());
+            System.out.println("Content: ");
+//            displayTextInputStream(fullObject.getObjectContent());
+
+            // Get a range of bytes from an object and print the bytes.
+            GetObjectRequest rangeObjectRequest = new GetObjectRequest(bucketName, key)
+                    .withRange(0, 9);
+            objectPortion = s3Client.getObject(rangeObjectRequest);
+            System.out.println("Printing bytes retrieved.");
+//            displayTextInputStream(objectPortion.getObjectContent());
+
+            // Get an entire object, overriding the specified response headers, and print the object's content.
+            ResponseHeaderOverrides headerOverrides = new ResponseHeaderOverrides()
+                    .withCacheControl("No-cache")
+                    .withContentDisposition("attachment; filename=" + outputName);
+            GetObjectRequest getObjectRequestHeaderOverride = new GetObjectRequest(bucketName, key)
+                    .withResponseHeaders(headerOverrides);
+            headerOverrideObject = s3Client.getObject(getObjectRequestHeaderOverride);
+            this.displayTextInputStream(headerOverrideObject, outputName);
+            return fullObject;
+        } catch (AmazonServiceException e) {
+            // The call was transmitted successfully, but Amazon S3 couldn't process
+            // it, so it returned an error response.
+            e.printStackTrace();
+        } catch (SdkClientException e) {
+            // Amazon S3 couldn't be contacted for a response, or the client
+            // couldn't parse the response from Amazon S3.
+            e.printStackTrace();
+        } finally {
+            // To ensure that the network connection doesn't remain open, close any open input streams.
+            if (fullObject != null) {
+                fullObject.close();
+                return fullObject;
+            }
+            if (objectPortion != null) {
+                objectPortion.close();
+            }
+            if (headerOverrideObject != null) {
+                headerOverrideObject.close();
+            }
+        }
+		return null;
+    }
+
+    public void displayTextInputStream(S3Object headerOverrideObject, String outputName) throws IOException {
+        // Read the text input stream one line at a time and display each line.
+    	String home = System.getProperty("user.home");
+    	String fileType = "";
+    	switch(headerOverrideObject.getObjectMetadata().getContentType()) {
+    	case "image/png":
+    		fileType = "png";
+    		break;
+
+    	case "image/jpeg":
+    		fileType = "jpeg";
+    		break;
+
+    	case "image/gif":
+    		fileType = "gif";
+    		break;
+    	}
+    	BufferedImage bi = ImageIO.read(headerOverrideObject.getObjectContent());
+    	ImageIO.write(bi, fileType, new File(home + "/Downloads/" + outputName));
+    }
 }
