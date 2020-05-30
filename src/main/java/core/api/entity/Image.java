@@ -12,8 +12,6 @@ public class Image {
 	private String title;
 	private long tagId;
 	private String tagName;
-	private long viewCount;
-	private long favoriteCount;
 	private long goodCount;
 	private boolean preDeleteFlag;
 	Timestamp createdAt;

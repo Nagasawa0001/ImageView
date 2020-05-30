@@ -144,7 +144,7 @@ public class IVCommon {
 	        calendar.add(Calendar.DAY_OF_MONTH, 1);
 
 	        // DBのデフォルト値
-	        Date defaultDate = sdf.parse("1000-01-01 00:00:00");
+	        Date defaultDate = sdf.parse("1000-01-01 09:00:00");
 	        // 削除予定日時
 	        Date deleteDate = calendar.getTime();
 	        // 現在日時
